@@ -1,11 +1,13 @@
 import React from 'react'
 import AceEditor from 'react-ace'
+import { Link } from 'react-router-dom'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import { Grid, Card, CardContent, Button } from '@material-ui/core'
 import { grey } from '@material-ui/core/colors'
 
 import SolveChip from './SolveChip'
+import TransitionButtons from './TransitionButtons'
 import Question from '../interfaces/Question'
 import 'brace/mode/javascript'
 import 'brace/theme/monokai'
@@ -29,7 +31,9 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 interface LambdaQuestionProps {
+  questionKey: number
   question: Question
+  hasNext: boolean
   evalFunction: (input: string) => void
   changeFunction: (value: string) => void
 }
@@ -40,7 +44,7 @@ const LambdaQuestion: React.FC<LambdaQuestionProps> = props => {
   return (
     <div className={classes.questionRoot}>
       <Typography variant='h3'>
-        Question #1
+        Question #{props.questionKey}
         <SolveChip isSolved={props.question.isSolved} />
       </Typography>
       <hr />
@@ -78,7 +82,10 @@ const LambdaQuestion: React.FC<LambdaQuestionProps> = props => {
         value={props.question.inputCode}
         fontSize={14}
         width='100%'
-        onChange={(value: string) => props.changeFunction(value)}
+        height='100px'
+        onChange={(value: string) => {
+          props.changeFunction(value)
+        }}
       />
       <Button
         variant='contained'
@@ -87,8 +94,10 @@ const LambdaQuestion: React.FC<LambdaQuestionProps> = props => {
         Try
       </Button>
       <hr />
-      <Button variant='outlined'>Prev</Button>
-      <Button variant='outlined'>Next</Button>
+      <TransitionButtons
+        currentKey={props.questionKey}
+        hasNext={props.hasNext}
+      />
     </div>
   )
 }

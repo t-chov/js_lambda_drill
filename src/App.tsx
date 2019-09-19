@@ -1,8 +1,10 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import { Container } from '@material-ui/core'
+import { Container, Breadcrumbs } from '@material-ui/core'
 
+import questions from './questions'
 import Question from './interfaces/Question'
+import Welcome from './components/Welcome'
 import ApplicationBar from './components/ApplicationBar'
 import LambdaQuestion from './components/LambdaQuestion'
 
@@ -14,16 +16,41 @@ class App extends React.Component {
   constructor(props: any) {
     super(props)
     this.state = {
-      questions: [
-        {
-          inputArray: [1, 2, 3, 4, 5],
-          answerArray: [2, 4, 6, 8, 10],
-          outputArray: [1, 2, 3, 4, 5],
-          inputCode: '[1, 2, 3, 4, 5].map(x => /* write here */);',
-          isSolved: false
-        }
-      ]
+      questions
     }
+  }
+
+  // 回答を eval して正答かどうか判定する
+  evalInput(questionKey: number, input: string) {
+    this.setState({
+      questions: this.state.questions.map((question, index) => {
+        if (index !== questionKey) return question
+        let outputArray: Array<any>
+        try {
+          // eslint-disable-next-line
+          outputArray = eval(input) as Array<any>
+        } catch {
+          return question
+        }
+        question.outputArray = outputArray
+        if (question.answerArray.toString() === outputArray.toString()) {
+          question.isSolved = true
+        }
+        return question
+      })
+    })
+  }
+
+  // エディタの内容を変更した際の動作
+  onChangeEditor(questionKey: number, input: string) {
+    this.setState({
+      questions: this.state.questions.map((question, index) => {
+        if (index === questionKey) {
+          question.inputCode = input
+        }
+        return question
+      })
+    })
   }
 
   render() {
@@ -32,32 +59,29 @@ class App extends React.Component {
       <Router>
         <ApplicationBar />
         <Container maxWidth='lg'>
-          <LambdaQuestion
-            question={this.state.questions[0]}
-            evalFunction={(inputCode: string) => {
-              let outputArray: Array<any>
-              try {
-                outputArray = eval(inputCode) as Array<any>
-              } catch {
-                return
-              }
-              const question = this.state.questions[0]
-              question.outputArray = outputArray
-              if (question.answerArray.toString() === outputArray.toString()) {
-                question.isSolved = true
-              }
-              this.setState({
-                questions: this.state.questions.splice(0, 1, question)
-              })
-            }}
-            changeFunction={(value: string) => {
-              const question = this.state.questions[0]
-              question['inputCode'] = value
-              this.setState({
-                questions: this.state.questions.splice(0, 1, question)
-              })
-            }}
-          />
+          <Breadcrumbs separator='>' aria-label='breadcrumb'>
+            {this.state.questions.map((_, index) => (
+              <Link to={`/${index}`}>{index}</Link>
+            ))}
+          </Breadcrumbs>
+          <Route path='/' exact component={Welcome}></Route>
+          {this.state.questions.map((question: Question, index: number) => (
+            <Route
+              key={index}
+              path={`/${index}`}
+              render={() => (
+                <LambdaQuestion
+                  questionKey={index}
+                  question={question}
+                  hasNext={index + 1 < this.state.questions.length}
+                  evalFunction={(input: string) => this.evalInput(index, input)}
+                  changeFunction={(input: string) =>
+                    this.onChangeEditor(index, input)
+                  }
+                />
+              )}
+            />
+          ))}
         </Container>
       </Router>
     )
