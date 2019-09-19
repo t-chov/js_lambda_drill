@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Grid, Card, CardContent, Button } from '@material-ui/core'
+import { Button } from '@material-ui/core'
 
 interface TransitionButtonsProps {
   currentKey: number

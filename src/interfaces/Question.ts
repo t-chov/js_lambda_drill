@@ -1,7 +1,7 @@
 interface Question {
   inputArray: Array<any>
-  answerArray: Array<any>
-  outputArray: Array<any>
+  answer: any
+  output: any
   inputCode: string
   isSolved: boolean
 }

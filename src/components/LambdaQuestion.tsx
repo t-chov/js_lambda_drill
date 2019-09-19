@@ -1,6 +1,5 @@
 import React from 'react'
 import AceEditor from 'react-ace'
-import { Link } from 'react-router-dom'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import { Grid, Card, CardContent, Button } from '@material-ui/core'
@@ -60,7 +59,7 @@ const LambdaQuestion: React.FC<LambdaQuestionProps> = props => {
           <Typography variant='h4'>Answer Output</Typography>
           <Card className={classes.dataCard}>
             <CardContent>
-              <pre>[{props.question.answerArray.join(', ')}]</pre>
+              <pre>{JSON.stringify(props.question.answer)}</pre>
             </CardContent>
           </Card>
         </Grid>
@@ -68,7 +67,7 @@ const LambdaQuestion: React.FC<LambdaQuestionProps> = props => {
           <Typography variant='h4'>Your Output</Typography>
           <Card className={classes.dataCard}>
             <CardContent>
-              <pre>[{props.question.outputArray.join(', ')}]</pre>
+              <pre>{JSON.stringify(props.question.output)}</pre>
             </CardContent>
           </Card>
         </Grid>

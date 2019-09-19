@@ -25,15 +25,15 @@ class App extends React.Component {
     this.setState({
       questions: this.state.questions.map((question, index) => {
         if (index !== questionKey) return question
-        let outputArray: Array<any>
+        let output: any
         try {
           // eslint-disable-next-line
-          outputArray = eval(input) as Array<any>
+          output = eval(input)
         } catch {
           return question
         }
-        question.outputArray = outputArray
-        if (question.answerArray.toString() === outputArray.toString()) {
+        question.output = output
+        if (JSON.stringify(question.answer) === JSON.stringify(output)) {
           question.isSolved = true
         }
         return question
@@ -54,7 +54,6 @@ class App extends React.Component {
   }
 
   render() {
-    const classes = this.props
     return (
       <Router>
         <ApplicationBar />
