@@ -8,6 +8,8 @@ import Welcome from './components/Welcome'
 import ApplicationBar from './components/ApplicationBar'
 import LambdaQuestion from './components/LambdaQuestion'
 
+const safeEval = require('safe-eval')
+
 class App extends React.Component {
   state: {
     questions: Array<Question>
@@ -27,8 +29,7 @@ class App extends React.Component {
         if (index !== questionKey) return question
         let output: any
         try {
-          // eslint-disable-next-line
-          output = eval(input)
+          output = safeEval(input)
         } catch {
           return question
         }

@@ -1,5 +1,18 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+# JS Lambda Drill
+
+JS Lambda Drill is practice for lambda function. You will be familier by solving some questions.
+
+## How to build
+
+You can use docker.
+
+```
+docker build -t {CONTAINER_NAME} .
+docker run -d -p {YOUR_PORT}:5000 {CONTAINER_NAME}
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
