@@ -40,5 +40,19 @@ export default [
     output: [],
     inputCode: '[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(x => { /* write here */ });',
     isSolved: false
+  },
+  {
+    inputArray: [[10, 1], [10, 0], [10, 1], [3, 2]],
+    answer: [33, 4],
+    output: [],
+    inputCode: '[[10, 1], [10, 0], [10, 1], [3, 2]];',
+    isSolved: false
+  },
+  {
+    inputArray: [1, 4, 9, 16, 25, 36, 49, 64, 81, 100],
+    answer: [2, 4, 6, 8, 10],
+    output: [],
+    inputCode: '[1, 4, 9, 16, 25, 36, 49, 64, 81, 100];',
+    isSolved: false
   }
 ]

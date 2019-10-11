@@ -50,7 +50,7 @@ const LambdaQuestion: React.FC<LambdaQuestionProps> = props => {
       <Typography variant='h4'>Input</Typography>
       <Card className={classes.dataCard}>
         <CardContent>
-          <pre>[{props.question.inputArray.join(', ')}]</pre>
+          <pre>{JSON.stringify(props.question.inputArray)}</pre>
         </CardContent>
       </Card>
 
