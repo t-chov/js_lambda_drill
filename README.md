@@ -13,6 +13,12 @@ docker build -t {CONTAINER_NAME} .
 docker run -d -p {YOUR_PORT}:5000 {CONTAINER_NAME}
 ```
 
+## Future works.
+
+- Reset Input Areas
+- Turn unsolved when changing values after once solved
+- Descriptions on Question
+
 ## Available Scripts
 
 In the project directory, you can run:
